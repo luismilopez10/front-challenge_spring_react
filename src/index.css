@@ -10,6 +10,10 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
+br {
+  border-bottom:1px dashed black;
+}
+
 .container {
   max-width: 500px;
   margin: 30px auto;
@@ -73,8 +77,14 @@ body {
   justify-content: space-between;
 }
 
-.task h2,h3,h4,h5 {
+.task h2 {
   font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task h3 {
   display: flex;
   align-items: center;
   justify-content: space-between;

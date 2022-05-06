@@ -2,18 +2,7 @@ import React, { createContext, useReducer } from 'react'
 import reducer from './Reducer'
 
 const initialState = {
-    category: {
-        id: '',
-        name: '',
-        notes: []
-    },
-    // lstCategories: [],
-    // note: {
-    //     id: '',
-    //     message: '',
-    //     done: false,
-    //     fkCategoryId: ''
-    // },
+    lstCategories: [],
     lstNotes: []
 }
 

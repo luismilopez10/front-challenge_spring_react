@@ -2,9 +2,9 @@ import React, { useContext, useEffect } from 'react'
 import { Store } from '../state_manager/StoreProvider'
 import { BiTrashAlt } from 'react-icons/bi'
 import { FaRegEdit } from 'react-icons/fa'
-import TaskForm from './TaskForm'
+import { types } from '../state_manager/Reducer'
 
-const TaskList = ({setMessage, setUpdate, setNote}) => {
+const TaskList = ({categoryId, setMessage, setUpdate, setNote}) => {
 
     const {state, dispatch} = useContext(Store)
 
@@ -12,10 +12,9 @@ const TaskList = ({setMessage, setUpdate, setNote}) => {
         fetchAllNotes()
         .then(notes=>{
             let action = {
-                type: 'get-notes',
+                type: types.getNotes,
                 payload: notes
             };
-
             dispatch(action);
         })
     }, [])
@@ -40,7 +39,7 @@ const TaskList = ({setMessage, setUpdate, setNote}) => {
             .then(response => response.json())
             .then(data => {
                 dispatch({
-                    type: 'update-note',
+                    type: types.updateNote,
                     payload: data.notes.filter(data => data.id === note.id)[0]
                 });
             });  
@@ -54,7 +53,7 @@ const TaskList = ({setMessage, setUpdate, setNote}) => {
 
         if (response.status === 200) {
             dispatch({
-                type: 'remove-note',
+                type: types.removeNote,
                 payload: note
             });
         }; 
@@ -63,29 +62,34 @@ const TaskList = ({setMessage, setUpdate, setNote}) => {
     return (
         <div>
             <ul>
-                {state.lstNotes.map(note => {
-                    return (
-                        <li key={note.id} className='task' style={note.done ? {textDecoration: 'line-through'} : {}}>
-                        <h2>
-                            <span>
-                                {/* {note.id} */}
-                                <span> </span>
-                                <FaRegEdit onClick={() => {
-                                    setMessage(note.message);
-                                    setUpdate(true);
-                                    setNoteId(note);
-                                    }
+                {state.lstNotes
+                    .filter(note => note.fkCategoryId == categoryId)
+                    .map(note => {
+                        return (
+                            <li key={note.id} className='task' style={note.done ? {textDecoration: 'line-through'} : {}}>
+                                <h2>
+                                    <span>
+                                        {/* {note.id} */}
+                                        <span> </span>
+                                        <FaRegEdit onClick={() => {
+                                            setMessage(note.message);
+                                            setUpdate(true);
+                                            setNote(note);
+                                            }
+                                        } />
+                                    </span>
+                                    
+                                    <BiTrashAlt onClick={() => {
+                                        onDelete(note);
+                                        }
                                 } />
-                            </span>
-                            
-                            <BiTrashAlt onClick={() => onDelete(note)} />
-                        </h2>
-                        <h2>
-                            {note.message}
-                            <input className='form-control-check' onChange={(event) => onCheckbox(event, note)} type="checkbox" checked={note.done} />              
-                        </h2>                 
-                        </li>
-                    )
+                                </h2>
+                                <h2>
+                                    {note.message}
+                                    <input className='form-control-check' onChange={(event) => onCheckbox(event, note)} type="checkbox" checked={note.done} />              
+                                </h2>
+                            </li>
+                        )
                 })}
             </ul>
         </div>

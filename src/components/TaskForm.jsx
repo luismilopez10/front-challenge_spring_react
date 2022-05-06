@@ -1,9 +1,10 @@
 import React, { useContext, useState, useRef } from 'react'
+import { types } from '../state_manager/Reducer';
 import { Store } from '../state_manager/StoreProvider'
 import TaskList from './TaskList'
 
 
-const TaskForm = () => {
+const TaskForm = ({categoryId}) => {
 
     const formRef = useRef(null);
     
@@ -24,7 +25,8 @@ const TaskForm = () => {
 
         const noteFromForm = {
             message,
-            done: false
+            done: false,
+            fkCategoryId: categoryId
         }
 
         if (title && message) {
@@ -37,7 +39,7 @@ const TaskForm = () => {
                 .then(response => response.json())
                 .then(data => {
                     dispatch({
-                        type: 'add-note',
+                        type: types.addNote,
                         payload: data
                     });
                 });            
@@ -49,32 +51,31 @@ const TaskForm = () => {
     const onUpdate = async (event) => {
         event.preventDefault();
 
-        const noteFromForm = {
+        const noteUpdate = {
             id: note.id,
             message,
             done: note.done,
             fkCategoryId: note.fkCategoryId
         }
-
-        if (id && message) {
+        
+        if (note.id && message && note.fkCategoryId) {
             const requestOptions = {
                 method: 'PUT',
                 headers: {'Content-type': 'application/json'},
-                body: JSON.stringify(noteFromForm)
+                body: JSON.stringify(noteUpdate)
             }
             fetch(`http://localhost:8081/api/v1/notes`, requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     dispatch({
-                        type: 'update-note',
+                        type: types.updateNote,
                         payload: data.notes.filter(data => data.id === note.id)[0]
                     });
-                });            
-
-            formRef.current.reset();
-            setUpdate(false);
-            setNoteId(0);
+                });
         }
+        
+        setUpdate(false);
+        formRef.current.reset();
     }
 
     return (
@@ -82,9 +83,9 @@ const TaskForm = () => {
             <form action="" className='form-control' ref={formRef}>
                 <label htmlFor="message">Message:</label>
                 <input type="text" onChange={addingMessage} value={message} id='message' placeholder='Enter a message'/>
-                <input type="submit" className='btn btn-block' onClick={update?onUpdate:onAdd} id='title' value="Add note" />
+                <input type="submit" className='btn btn-block' onClick={update?onUpdate:onAdd} id='title' value={update?"Update note":"Add note"} />
             </form>        
-            <TaskList setMessage={setMessage} setUpdate={setUpdate} setNote={setNote}/>
+            <TaskList categoryId={categoryId} setMessage={setMessage} setUpdate={setUpdate} setNote={setNote}/>
         </div>
     )
 }
