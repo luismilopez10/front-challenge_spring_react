@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { Store } from '../state_manager/StoreProvider'
 import { BiTrashAlt } from 'react-icons/bi'
+import { MdClose } from 'react-icons/md'
 import { FaRegEdit } from 'react-icons/fa'
 import { types } from '../state_manager/Reducer'
 
@@ -79,7 +80,7 @@ const TaskList = ({categoryId, setMessage, setUpdate, setNote}) => {
                                         } />
                                     </span>
                                     
-                                    <BiTrashAlt onClick={() => {
+                                    <MdClose onClick={() => {
                                         onDelete(note);
                                         }
                                 } />

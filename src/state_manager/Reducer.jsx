@@ -2,7 +2,6 @@ const types = {
     getCategories: 'get-categories',
     addCategory: 'add-category',
     removeCategory: 'remove-category',
-    updateCategory: 'update-category',
 
     getNotes: 'get-notes',
     addNote: 'add-note',
@@ -45,7 +44,7 @@ function reducer(state, action){
 
             return stateWithAllNotes;
 
-        case types.addNote:
+        case types.addNote: // ######### Falta
             const newNote = action.payload;
 
             const newListOfNotesAddedOne = [...state.lstNotes, newNote];
@@ -61,7 +60,7 @@ function reducer(state, action){
 
             return newStateWithNoteDeleted;
 
-        case 'update-note':
+        case types.updateNote:
             const newlstNotes = state.lstNotes.map(note => note.id === action.payload.id ? action.payload : note);
             
             const newStateModifiedCheckbox = {...state, lstNotes: newlstNotes};

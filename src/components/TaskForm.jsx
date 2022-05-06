@@ -75,7 +75,7 @@ const TaskForm = ({categoryId}) => {
         }
         
         setUpdate(false);
-        formRef.current.reset();
+        setMessage('');
     }
 
     return (
@@ -84,7 +84,7 @@ const TaskForm = ({categoryId}) => {
                 <label htmlFor="message">Message:</label>
                 <input type="text" onChange={addingMessage} value={message} id='message' placeholder='Enter a message'/>
                 <input type="submit" className='btn btn-block' onClick={update?onUpdate:onAdd} id='title' value={update?"Update note":"Add note"} />
-            </form>        
+            </form>
             <TaskList categoryId={categoryId} setMessage={setMessage} setUpdate={setUpdate} setNote={setNote}/>
         </div>
     )
