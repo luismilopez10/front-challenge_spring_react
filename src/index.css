@@ -66,7 +66,15 @@ body {
   border-left: 5px solid green;
 }
 
-.task h3,h5 {
+.task h1 {
+  font-size: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task h2,h3,h4,h5 {
+  font-size: 0.9rem;
   display: flex;
   align-items: center;
   justify-content: space-between;

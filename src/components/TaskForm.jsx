@@ -1,16 +1,28 @@
 import React, { useContext, useState, useRef } from 'react'
 import { Store } from '../state_manager/StoreProvider'
+import TaskList from './TaskList'
+
 
 const TaskForm = () => {
 
     const formRef = useRef(null);
+    
+    const {state, dispatch} = useContext(Store);
+    
+    const [note, setNote] = useState(0);
+    
+    const [update, setUpdate] = useState(false);
 
+    const [message, setMessage] = useState('');
+
+    const addingMessage = (event) => {
+        setMessage(event.target.value);
+    }
 
     const onAdd = async (event) => {
         event.preventDefault();
 
         const noteFromForm = {
-            title,
             message,
             done: false
         }
@@ -34,28 +46,46 @@ const TaskForm = () => {
         }
     }
 
-    const {state, dispatch} = useContext(Store);
+    const onUpdate = async (event) => {
+        event.preventDefault();
 
-    const [title, setTitle] = useState('');
+        const noteFromForm = {
+            id: note.id,
+            message,
+            done: note.done,
+            fkCategoryId: note.fkCategoryId
+        }
 
-    const [message, setMessage] = useState('');
+        if (id && message) {
+            const requestOptions = {
+                method: 'PUT',
+                headers: {'Content-type': 'application/json'},
+                body: JSON.stringify(noteFromForm)
+            }
+            fetch(`http://localhost:8081/api/v1/notes`, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    dispatch({
+                        type: 'update-note',
+                        payload: data.notes.filter(data => data.id === note.id)[0]
+                    });
+                });            
 
-    const addingTitle = (ev) => {
-        setTitle(ev.target.value);
-    }
-
-    const addingMessage = (ev) => {
-        setMessage(ev.target.value);
+            formRef.current.reset();
+            setUpdate(false);
+            setNoteId(0);
+        }
     }
 
     return (
-        <form action="" className='form-control' ref={formRef}>
-            <label htmlFor="title">Title:</label>
-            <input type="text" onChange={addingTitle} id='title'/>
-            <label htmlFor="message">Message:</label>
-            <input type="text" onChange={addingMessage} id='message'/>
-            <input type="submit" className='btn btn-block' onClick={onAdd} id='title' value="Add note" />
-        </form>
+        <div>
+            <form action="" className='form-control' ref={formRef}>
+                <label htmlFor="message">Message:</label>
+                <input type="text" onChange={addingMessage} value={message} id='message' placeholder='Enter a message'/>
+                <input type="submit" className='btn btn-block' onClick={update?onUpdate:onAdd} id='title' value="Add note" />
+            </form>        
+            <TaskList setMessage={setMessage} setUpdate={setUpdate} setNote={setNote}/>
+        </div>
     )
 }
 

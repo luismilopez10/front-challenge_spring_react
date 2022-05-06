@@ -29,7 +29,7 @@ function reducer(state, action){
 
         case 'update-note':
             const newlstNotes = state.lstNotes.map(note => note.id === action.payload.id ? action.payload : note);
-
+            
             const newStateModifiedCheckbox = {...state, lstNotes: newlstNotes};
 
             return newStateModifiedCheckbox;

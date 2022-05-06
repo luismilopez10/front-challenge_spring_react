@@ -1,13 +1,15 @@
 import React, { useContext, useEffect } from 'react'
 import { Store } from '../state_manager/StoreProvider'
 import { BiTrashAlt } from 'react-icons/bi'
+import { FaRegEdit } from 'react-icons/fa'
+import TaskForm from './TaskForm'
 
-const TaskList = () => {
+const TaskList = ({setMessage, setUpdate, setNote}) => {
 
     const {state, dispatch} = useContext(Store)
 
     useEffect(()=>{
-        let listOfNote = fetchAllNotes()
+        fetchAllNotes()
         .then(notes=>{
             let action = {
                 type: 'get-notes',
@@ -39,7 +41,7 @@ const TaskList = () => {
             .then(data => {
                 dispatch({
                     type: 'update-note',
-                    payload: data
+                    payload: data.notes.filter(data => data.id === note.id)[0]
                 });
             });  
     }
@@ -60,20 +62,29 @@ const TaskList = () => {
 
     return (
         <div>
-            <h1>Your tasks</h1>
             <ul>
                 {state.lstNotes.map(note => {
                     return (
-                    <li key={note.id} className='task' style={note.done ? {textDecoration: 'line-through'} : {}}>
-                        <h3>
-                            {note.title}
+                        <li key={note.id} className='task' style={note.done ? {textDecoration: 'line-through'} : {}}>
+                        <h2>
+                            <span>
+                                {/* {note.id} */}
+                                <span> </span>
+                                <FaRegEdit onClick={() => {
+                                    setMessage(note.message);
+                                    setUpdate(true);
+                                    setNoteId(note);
+                                    }
+                                } />
+                            </span>
+                            
                             <BiTrashAlt onClick={() => onDelete(note)} />
-                        </h3>
-                        <h5>
+                        </h2>
+                        <h2>
                             {note.message}
-                            <input className='form-control-check' onChange={(ev) => onCheckbox(ev, note)} type="checkbox" checked={note.done} />
-                        </h5>                    
-                    </li>
+                            <input className='form-control-check' onChange={(event) => onCheckbox(event, note)} type="checkbox" checked={note.done} />              
+                        </h2>                 
+                        </li>
                     )
                 })}
             </ul>
