@@ -21,6 +21,15 @@ function reducer(state, action){
 
             return stateWithAllCategories;
 
+        case types.addCategory:
+            const newCategory = action.payload;
+
+            const newListOfCategorysAddedOne = [...state.lstCategories, newCategory];
+
+            const newStateAddCategory = {...state, lstCategories: newListOfCategorysAddedOne};
+
+            return newStateAddCategory;
+
         case types.removeCategory:
             const newlstCategoriesWithoutPayloadNote = state.lstCategories.filter(category => category.id !== action.payload.id);
 
@@ -41,9 +50,7 @@ function reducer(state, action){
 
             const newListOfNotesAddedOne = [...state.lstNotes, newNote];
 
-            const newStateAddNote = {
-                ...state, lstNotes: newListOfNotesAddedOne
-            };
+            const newStateAddNote = {...state, lstNotes: newListOfNotesAddedOne};
 
             return newStateAddNote;
 
