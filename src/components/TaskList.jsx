@@ -78,8 +78,7 @@ const TaskList = ({categoryId, setMessage, setUpdate, setNote}) => {
                                             setNote(note);
                                             }
                                         } />
-                                    </span>
-                                    
+                                    </span>                                    
                                     <MdClose onClick={() => {
                                         onDelete(note);
                                         }

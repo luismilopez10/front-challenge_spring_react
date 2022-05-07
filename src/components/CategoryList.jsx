@@ -47,7 +47,8 @@ const CategoryList = () => {
                     <li key={category.id} className='task'>
                         <h3>
                             {category.name}
-                            <BiTrashAlt onClick={() => onDelete(category)} />
+                            <div><BiTrashAlt onClick={() => onDelete(category)} /></div>
+                            
                         </h3>
                             <TaskForm categoryId={category.id} />
                     </li>

@@ -41,7 +41,7 @@ function reducer(state, action){
 
             return stateWithAllNotes;
 
-        case types.addNote: // ######### Falta
+        case types.addNote:
             const categoryModified = action.payload;
             const newNoteId = Math.max(...categoryModified.notes.map(category => category.id));
             const newNote = categoryModified.notes.filter(note => note.id===newNoteId)[0]
