@@ -37,21 +37,27 @@ function reducer(state, action){
             return newStateWithCategoryDeleted;
 
         case types.getNotes:
-            const stateWithAllNotes = {
-                ...state,
-                lstNotes: action.payload
-            }
+            const stateWithAllNotes = {...state, lstNotes: action.payload}
 
             return stateWithAllNotes;
 
         case types.addNote: // ######### Falta
-            const newNote = action.payload;
+            const categoryModified = action.payload;
+            const newNoteId = Math.max(...categoryModified.notes.map(category => category.id));
+            const newNote = categoryModified.notes.filter(note => note.id===newNoteId)[0]
 
-            const newListOfNotesAddedOne = [...state.lstNotes, newNote];
+            const OldCategoryList = [...state.lstCategories];
+            const NewCategoryList = OldCategoryList.map(category=>{
+                if (category.id === categoryModified.id) {
+                    category.notes = categoryModified.notes
+                }
+                return category;
+            })
+            const newStateOfNotes  = [...state.lstNotes, newNote];
 
-            const newStateAddNote = {...state, lstNotes: newListOfNotesAddedOne};
+            const newStateOfCategoriesAndNotes = {...state, lstCategories: NewCategoryList, lstNotes: newStateOfNotes};
 
-            return newStateAddNote;
+            return newStateOfCategoriesAndNotes;
 
         case types.removeNote:
             const newlstNotesWithoutPayloadNote = state.lstNotes.filter(note => note.id !== action.payload.id);

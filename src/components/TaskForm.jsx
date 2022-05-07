@@ -44,6 +44,7 @@ const TaskForm = ({categoryId}) => {
                     });
                 });            
 
+            setMessage('');
             formRef.current.reset();
         }
     }
