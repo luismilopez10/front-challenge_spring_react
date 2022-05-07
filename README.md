@@ -26,7 +26,7 @@ In order to run the commands above you need to have [Node.js and NPM](https://no
 
 # Required resources
 
-### Databse
+### Database
 Before you run this application you have to create a database named "notes" in MySQL with the query:
 ```bash
 CREATE DATABASE notes;
