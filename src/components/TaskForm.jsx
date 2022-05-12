@@ -3,7 +3,6 @@ import { types } from '../state_manager/Reducer';
 import { Store } from '../state_manager/StoreProvider'
 import TaskList from './TaskList'
 
-
 const TaskForm = ({categoryId}) => {
 
     const formRef = useRef(null);
@@ -82,8 +81,8 @@ const TaskForm = ({categoryId}) => {
     return (
         <div>
             <form action="" className='form-control' ref={formRef}>
-                <label htmlFor="message">Message:</label>
-                <input type="text" onChange={addingMessage} value={message} id='message' placeholder='Enter a message'/>
+                <label htmlFor={'message'+{categoryId}}>Message:</label>
+                <input type="text" onChange={addingMessage} value={message} id={'message'+{categoryId}} placeholder='Enter a message'/>
                 <input type="submit" className='btn btn-block' onClick={update ? onUpdate : onAdd} id='title' value={update ? "Update note" : "Add note"} />
             </form>
             <TaskList categoryId={categoryId} setMessage={setMessage} setUpdate={setUpdate} setNote={setNote}/>

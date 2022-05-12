@@ -61,6 +61,7 @@ const TaskList = ({categoryId, setMessage, setUpdate, setNote}) => {
     }
 
     return (
+        
         <div>
             <ul>
                 {state.lstNotes
@@ -71,7 +72,6 @@ const TaskList = ({categoryId, setMessage, setUpdate, setNote}) => {
                                 <h2>
                                     <span>
                                         {/* {note.id} */}
-                                        <span> </span>
                                         <FaRegEdit onClick={() => {
                                             setMessage(note.message);
                                             setUpdate(true);
@@ -90,7 +90,8 @@ const TaskList = ({categoryId, setMessage, setUpdate, setNote}) => {
                                 </h2>
                             </li>
                         )
-                })}
+                    })
+                }
             </ul>
         </div>
     )

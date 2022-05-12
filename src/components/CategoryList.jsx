@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react'
 import { Store } from '../state_manager/StoreProvider'
 import { BiTrashAlt } from 'react-icons/bi'
-import { FaRegEdit } from 'react-icons/fa'
 import TaskForm from './TaskForm'
 import { types } from '../state_manager/Reducer'
+import cricket from '../../assets/cricket.gif'
 
 const CategoryList = () => {
 
@@ -39,24 +39,27 @@ const CategoryList = () => {
         };
     }
 
-  return (
-    <div>
-        <ul>
-            {state.lstCategories.map(category => {
-                return (
-                    <li key={category.id} className='task'>
-                        <h3>
-                            {category.name}
-                            <div><BiTrashAlt onClick={() => onDelete(category)} /></div>
-                            
-                        </h3>
-                            <TaskForm categoryId={category.id} />
-                    </li>
-                )
-            })}
-        </ul>
-    </div>
-  )
+
+    if (state.lstCategories.length===0) {
+        return <center><img src={cricket} alt="cricket" style={{width:'30%'}}/></center>
+    }
+    return (
+        <div>
+            <ul>
+                {state.lstCategories.map(category => {
+                    return (
+                        <li key={category.id} className='task'>
+                            <h3>
+                                {category.name}
+                                <BiTrashAlt onClick={() => onDelete(category)} />
+                            </h3>
+                                <TaskForm categoryId={category.id} />
+                        </li>
+                    )
+                })}
+            </ul>
+        </div>
+    )
 }
 
 export default CategoryList
